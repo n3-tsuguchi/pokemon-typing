@@ -49,6 +49,7 @@ async function fetchBatch(ids: number[]): Promise<Pokemon[]> {
       return {
         id,
         nameJa: jaName.name,
+        nameEn: data.name,
         nameRomaji: "",
         spriteUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`,
       } satisfies Pokemon;

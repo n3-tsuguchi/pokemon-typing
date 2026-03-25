@@ -1,12 +1,12 @@
 export interface Pokemon {
   id: number;
   nameJa: string;
+  nameEn: string;
   nameRomaji: string;
   spriteUrl: string;
 }
 
 export interface GameScore {
-  userId: string;
   score: number;
   totalAttempts: number;
   accuracy: number;

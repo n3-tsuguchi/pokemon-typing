@@ -18,14 +18,12 @@ function getStoredScores(): GameScore[] {
 }
 
 export async function saveScore(
-  userId: string,
   score: number,
   totalAttempts: number,
   accuracy: number
 ) {
   const scores = getStoredScores();
   scores.unshift({
-    userId,
     score,
     totalAttempts,
     accuracy,
@@ -34,7 +32,6 @@ export async function saveScore(
   localStorage.setItem(SCORES_KEY, JSON.stringify(scores));
 }
 
-export async function getUserScores(userId: string): Promise<GameScore[]> {
-  const scores = getStoredScores();
-  return scores.filter((s) => s.userId === userId);
+export async function getScores(): Promise<GameScore[]> {
+  return getStoredScores();
 }
