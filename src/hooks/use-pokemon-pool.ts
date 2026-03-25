@@ -1,8 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo } from "react";
 import { POKEMON_DATA } from "@/lib/pokemon-data";
 import type { Pokemon } from "@/lib/types";
+
+// Lazy imports for gen 2 & 3
+let gen2Data: Pokemon[] | null = null;
+let gen3Data: Pokemon[] | null = null;
+
+function getGen2(): Pokemon[] {
+  if (!gen2Data) {
+    gen2Data = require("@/lib/pokemon-data-gen2").POKEMON_DATA_GEN2;
+  }
+  return gen2Data!;
+}
+
+function getGen3(): Pokemon[] {
+  if (!gen3Data) {
+    gen3Data = require("@/lib/pokemon-data-gen3").POKEMON_DATA_GEN3;
+  }
+  return gen3Data!;
+}
 
 function shuffle<T>(array: T[]): T[] {
   const arr = [...array];
@@ -13,12 +31,19 @@ function shuffle<T>(array: T[]): T[] {
   return arr;
 }
 
-export function usePokemonPool() {
-  const [pokemon, setPokemon] = useState<Pokemon[]>(() => shuffle(POKEMON_DATA));
+function getPokemonByGens(selectedGens: number[]): Pokemon[] {
+  let pool: Pokemon[] = [];
+  if (selectedGens.includes(1)) pool = pool.concat(POKEMON_DATA);
+  if (selectedGens.includes(2)) pool = pool.concat(getGen2());
+  if (selectedGens.includes(3)) pool = pool.concat(getGen3());
+  return pool;
+}
 
-  const reshuffle = () => {
-    setPokemon(shuffle(POKEMON_DATA));
-  };
+export function usePokemonPool(selectedGens: number[] = [1]) {
+  const pokemon = useMemo(() => {
+    const pool = getPokemonByGens(selectedGens);
+    return shuffle(pool);
+  }, [selectedGens.join(",")]);
 
-  return { pokemon, loading: false, error: null, reshuffle };
+  return { pokemon, loading: false, error: null };
 }

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useCallback, useState } from "react";
 import { usePokemonPool } from "@/hooks/use-pokemon-pool";
 import { saveScore } from "@/lib/firestore";
+import { GENERATIONS } from "@/lib/generations";
 import { PokemonDisplay } from "./pokemon-display";
 import { TypingInput } from "./typing-input";
 import { TimerBar } from "./timer-bar";
@@ -18,7 +19,8 @@ const DIFFICULTY_CONFIG = {
 } as const;
 
 export function GameContainer() {
-  const { pokemon } = usePokemonPool();
+  const [selectedGens, setSelectedGens] = useState<number[]>([1]);
+  const { pokemon } = usePokemonPool(selectedGens);
 
   const [difficulty, setDifficulty] = useState<Difficulty>("normal");
   const [countdown, setCountdown] = useState<number | null>(null);
@@ -164,7 +166,44 @@ export function GameContainer() {
         <div className="text-center">
           <p className="mb-2 text-5xl sm:text-6xl">&#x1F3AE;</p>
           <h2 className="mb-2 text-xl sm:text-2xl font-bold text-gray-800">準備はいい？</h2>
-          <p className="text-sm sm:text-base text-gray-500">難易度を選んでスタート！</p>
+          <p className="text-sm sm:text-base text-gray-500">世代と難易度を選んでスタート！</p>
+        </div>
+
+        {/* Generation selection */}
+        <div className="w-full max-w-md">
+          <p className="mb-2 text-xs font-semibold text-gray-400 uppercase tracking-wider text-center">世代を選択</p>
+          <div className="flex flex-wrap justify-center gap-2">
+            {GENERATIONS.map((gen) => {
+              const isSelected = selectedGens.includes(gen.id);
+              return (
+                <button
+                  key={gen.id}
+                  onClick={() => {
+                    setSelectedGens((prev) => {
+                      if (isSelected && prev.length > 1) {
+                        return prev.filter((g) => g !== gen.id);
+                      }
+                      if (!isSelected) {
+                        return [...prev, gen.id].sort();
+                      }
+                      return prev;
+                    });
+                  }}
+                  className={`rounded-full px-4 py-2 text-xs sm:text-sm font-semibold transition-all active:scale-95 ${
+                    isSelected
+                      ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md"
+                      : "border border-gray-200 bg-white text-gray-500 hover:border-gray-300 hover:bg-gray-50"
+                  }`}
+                >
+                  {gen.label}
+                  <span className="ml-1 opacity-70">{gen.region}</span>
+                </button>
+              );
+            })}
+          </div>
+          <p className="mt-2 text-center text-[10px] sm:text-xs text-gray-300">
+            {pokemon.length}匹のポケモン
+          </p>
         </div>
 
         {/* Difficulty selection */}
