@@ -4,6 +4,7 @@ import { useEffect, useRef, useCallback, useState } from "react";
 import { usePokemonPool } from "@/hooks/use-pokemon-pool";
 import { saveScore } from "@/lib/firestore";
 import { GENERATIONS } from "@/lib/generations";
+import { playCorrectSE, playTimeUpSE, playCountdownSE } from "@/lib/sounds";
 import { PokemonDisplay } from "./pokemon-display";
 import { TypingInput } from "./typing-input";
 import { TimerBar } from "./timer-bar";
@@ -59,6 +60,7 @@ export function GameContainer() {
         if (prev <= 1) {
           clearTimer();
           setFinished(true);
+          playTimeUpSE();
           return 0;
         }
         return prev - 1;
@@ -89,13 +91,16 @@ export function GameContainer() {
 
     // Start countdown 3 → 2 → 1 → GO!
     setCountdown(3);
+    playCountdownSE();
     let count = 3;
     const interval = setInterval(() => {
       count--;
       if (count > 0) {
         setCountdown(count);
+        playCountdownSE();
       } else if (count === 0) {
         setCountdown(0); // "GO!"
+        playCountdownSE(true);
       } else {
         clearInterval(interval);
         setCountdown(null);
@@ -125,6 +130,7 @@ export function GameContainer() {
     setShowCorrectEffect(true);
     setPokemonKey((k) => k + 1);
     setTimeout(() => setShowCorrectEffect(false), 400);
+    playCorrectSE();
 
     // Cry is now played directly in TypingInput for browser autoplay policy
   }, []);
