@@ -21,6 +21,7 @@ export function GameContainer() {
   const { pokemon } = usePokemonPool();
 
   const [difficulty, setDifficulty] = useState<Difficulty>("normal");
+  const [countdown, setCountdown] = useState<number | null>(null);
   const [started, setStarted] = useState(false);
   const [finished, setFinished] = useState(false);
   const [score, setScore] = useState(0);
@@ -83,7 +84,22 @@ export function GameContainer() {
     durationRef.current = duration;
     setDifficulty(diff);
     setTimeLeft(duration);
-    setStarted(true);
+
+    // Start countdown 3 → 2 → 1 → GO!
+    setCountdown(3);
+    let count = 3;
+    const interval = setInterval(() => {
+      count--;
+      if (count > 0) {
+        setCountdown(count);
+      } else if (count === 0) {
+        setCountdown(0); // "GO!"
+      } else {
+        clearInterval(interval);
+        setCountdown(null);
+        setStarted(true);
+      }
+    }, 700);
   }, []);
 
   const handleCorrect = useCallback(() => {
@@ -173,6 +189,25 @@ export function GameContainer() {
           </svg>
           スタート!
         </button>
+      </div>
+    );
+  }
+
+  // Countdown screen
+  if (countdown !== null) {
+    return (
+      <div className="flex min-h-[calc(100vh-56px)] flex-col items-center justify-center px-4">
+        <div className="animate-countdown text-center">
+          {countdown > 0 ? (
+            <p key={countdown} className="animate-countdown-number text-8xl sm:text-9xl font-extrabold bg-gradient-to-b from-gray-700 to-gray-400 bg-clip-text text-transparent">
+              {countdown}
+            </p>
+          ) : (
+            <p key="go" className="animate-countdown-number text-6xl sm:text-7xl font-extrabold bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 bg-clip-text text-transparent">
+              GO!
+            </p>
+          )}
+        </div>
       </div>
     );
   }
