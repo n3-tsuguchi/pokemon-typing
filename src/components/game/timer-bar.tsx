@@ -1,13 +1,12 @@
 "use client";
 
-const GAME_DURATION = 60;
-
 interface Props {
   timeLeft: number;
+  duration: number;
 }
 
-export function TimerBar({ timeLeft }: Props) {
-  const percentage = (timeLeft / GAME_DURATION) * 100;
+export function TimerBar({ timeLeft, duration }: Props) {
+  const percentage = (timeLeft / duration) * 100;
   const isLow = timeLeft <= 10;
   const isCritical = timeLeft <= 5;
 

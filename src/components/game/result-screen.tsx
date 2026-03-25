@@ -1,10 +1,19 @@
 "use client";
 
+type Difficulty = "easy" | "normal" | "hard";
+
 interface Props {
   score: number;
   totalAttempts: number;
   bestStreak: number;
+  difficulty: Difficulty;
 }
+
+const DIFFICULTY_LABEL: Record<Difficulty, { label: string; emoji: string }> = {
+  easy:   { label: "かんたん", emoji: "\uD83C\uDF3F" },
+  normal: { label: "ふつう",   emoji: "\uD83D\uDD25" },
+  hard:   { label: "むずかしい", emoji: "\u26A1" },
+};
 
 function getRank(score: number): { label: string; emoji: string; color: string; bg: string } {
   if (score >= 40) return { label: "チャンピオン", emoji: "\uD83C\uDFC6", color: "text-yellow-600", bg: "from-yellow-400 to-amber-500" };
@@ -14,9 +23,10 @@ function getRank(score: number): { label: string; emoji: string; color: string; 
   return { label: "はじめてのタイピング", emoji: "\uD83C\uDF31", color: "text-green-600", bg: "from-green-400 to-emerald-500" };
 }
 
-export function ResultScreen({ score, totalAttempts, bestStreak }: Props) {
+export function ResultScreen({ score, totalAttempts, bestStreak, difficulty }: Props) {
   const accuracy = totalAttempts > 0 ? Math.round((score / totalAttempts) * 100) : 0;
   const rank = getRank(score);
+  const diffInfo = DIFFICULTY_LABEL[difficulty];
 
   return (
     <div className="flex min-h-[calc(100vh-56px)] items-center justify-center px-4 py-6">
@@ -28,6 +38,10 @@ export function ResultScreen({ score, totalAttempts, bestStreak }: Props) {
             <p className="text-4xl sm:text-5xl mb-2">{rank.emoji}</p>
             <h2 className="text-xl sm:text-2xl font-bold mb-1">結果発表</h2>
             <p className="text-xs sm:text-sm font-medium opacity-90">{rank.label}</p>
+            <div className="mt-2 inline-flex items-center gap-1 rounded-full bg-white/20 px-3 py-0.5 text-xs font-medium">
+              <span>{diffInfo.emoji}</span>
+              <span>{diffInfo.label}</span>
+            </div>
           </div>
 
           <div className="px-5 py-5 sm:px-8 sm:py-6">
