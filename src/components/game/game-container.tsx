@@ -140,6 +140,23 @@ export function GameContainer() {
   const currentPokemon =
     pokemon.length > 0 ? pokemon[currentIndex % pokemon.length] : null;
 
+  // Countdown screen
+  if (countdown !== null) {
+    return (
+      <div className="flex min-h-[calc(100vh-56px)] flex-col items-center justify-center px-4">
+        {countdown > 0 ? (
+          <p key={countdown} className="animate-countdown-number text-8xl sm:text-9xl font-extrabold bg-gradient-to-b from-gray-700 to-gray-400 bg-clip-text text-transparent">
+            {countdown}
+          </p>
+        ) : (
+          <p key="go" className="animate-countdown-number text-6xl sm:text-7xl font-extrabold bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 bg-clip-text text-transparent">
+            GO!
+          </p>
+        )}
+      </div>
+    );
+  }
+
   // Start screen with difficulty selection
   if (!started) {
     return (
@@ -189,25 +206,6 @@ export function GameContainer() {
           </svg>
           スタート!
         </button>
-      </div>
-    );
-  }
-
-  // Countdown screen
-  if (countdown !== null) {
-    return (
-      <div className="flex min-h-[calc(100vh-56px)] flex-col items-center justify-center px-4">
-        <div className="animate-countdown text-center">
-          {countdown > 0 ? (
-            <p key={countdown} className="animate-countdown-number text-8xl sm:text-9xl font-extrabold bg-gradient-to-b from-gray-700 to-gray-400 bg-clip-text text-transparent">
-              {countdown}
-            </p>
-          ) : (
-            <p key="go" className="animate-countdown-number text-6xl sm:text-7xl font-extrabold bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 bg-clip-text text-transparent">
-              GO!
-            </p>
-          )}
-        </div>
       </div>
     );
   }
