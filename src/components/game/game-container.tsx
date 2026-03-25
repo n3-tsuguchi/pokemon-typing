@@ -220,9 +220,9 @@ export function GameContainer() {
             />
             <button
               onClick={handleSkip}
-              className="flex w-full items-center justify-center gap-1.5 rounded-xl py-2 text-sm font-medium text-gray-400 transition hover:text-gray-600 hover:bg-gray-100 active:scale-[0.98]"
+              className="flex w-full items-center justify-center gap-2 rounded-2xl border border-gray-200 bg-white py-2.5 text-sm font-semibold text-gray-500 shadow-sm transition hover:text-gray-700 hover:border-gray-300 hover:bg-gray-50 active:scale-[0.98]"
             >
-              <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 8.689c0-.864.933-1.406 1.683-.977l7.108 4.061a1.125 1.125 0 0 1 0 1.954l-7.108 4.061A1.125 1.125 0 0 1 3 16.811V8.69ZM12.75 8.689c0-.864.933-1.406 1.683-.977l7.108 4.061a1.125 1.125 0 0 1 0 1.954l-7.108 4.061a1.125 1.125 0 0 1-1.683-.977V8.69Z" />
               </svg>
               スキップ
