@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
@@ -13,9 +13,22 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  themeColor: "#ffffff",
+};
+
 export const metadata: Metadata = {
   title: "ポケモンタイピング",
   description: "ポケモンの名前をタイプして高スコアを目指そう！",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "PokeTyping",
+  },
 };
 
 export default function RootLayout({

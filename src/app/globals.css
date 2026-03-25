@@ -167,3 +167,29 @@ body {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
+
+/* Mobile optimizations */
+@supports (-webkit-touch-callout: none) {
+  /* iOS safe area padding */
+  body {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Prevent iOS zoom on input focus (font-size >= 16px) */
+input[type="text"] {
+  font-size: 16px !important;
+}
+
+@media (min-width: 640px) {
+  input[type="text"] {
+    font-size: inherit !important;
+  }
+}
+
+/* Touch-friendly tap targets */
+@media (hover: none) and (pointer: coarse) {
+  button, a {
+    min-height: 44px;
+  }
+}

@@ -105,17 +105,17 @@ export function GameContainer() {
   // Start screen
   if (!started) {
     return (
-      <div className="flex min-h-[70vh] flex-col items-center justify-center gap-8">
+      <div className="flex min-h-[calc(100vh-56px)] flex-col items-center justify-center gap-6 sm:gap-8 px-4">
         <div className="text-center">
-          <p className="mb-2 text-6xl">&#x1F3AE;</p>
-          <h2 className="mb-2 text-2xl font-bold text-gray-800">準備はいい？</h2>
-          <p className="text-gray-500">60秒間でポケモンの名前をタイピング！</p>
+          <p className="mb-2 text-5xl sm:text-6xl">&#x1F3AE;</p>
+          <h2 className="mb-2 text-xl sm:text-2xl font-bold text-gray-800">準備はいい？</h2>
+          <p className="text-sm sm:text-base text-gray-500">60秒間でポケモンの名前をタイピング！</p>
         </div>
         <button
           onClick={handleStart}
-          className="group relative inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-red-500 to-red-600 px-12 py-5 text-xl font-bold text-white shadow-lg shadow-red-500/25 transition-all hover:shadow-xl hover:shadow-red-500/30 hover:brightness-110 active:scale-95"
+          className="group relative inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-red-500 to-red-600 px-10 py-4 sm:px-12 sm:py-5 text-lg sm:text-xl font-bold text-white shadow-lg shadow-red-500/25 transition-all hover:shadow-xl hover:shadow-red-500/30 hover:brightness-110 active:scale-95"
         >
-          <svg className="h-6 w-6 transition-transform group-hover:rotate-12" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+          <svg className="h-5 w-5 sm:h-6 sm:w-6 transition-transform group-hover:rotate-12" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
           </svg>
           スタート!
@@ -135,13 +135,13 @@ export function GameContainer() {
   }
 
   return (
-    <div className="relative flex min-h-[80vh] flex-col items-center py-6">
+    <div className="relative flex flex-col items-center px-4 py-3 sm:py-6">
       {/* Correct answer flash overlay */}
       {showCorrectEffect && (
         <div className="pointer-events-none fixed inset-0 z-50 bg-green-400/10 transition-opacity duration-300" />
       )}
 
-      <div className="w-full max-w-lg space-y-5">
+      <div className="w-full max-w-lg space-y-3 sm:space-y-5">
         {/* Timer */}
         <TimerBar timeLeft={timeLeft} />
 
@@ -167,7 +167,7 @@ export function GameContainer() {
 
         {/* Hint: Pokemon number */}
         {currentPokemon && (
-          <p className="text-center text-sm text-gray-300">
+          <p className="text-center text-xs sm:text-sm text-gray-300">
             No.{String(currentPokemon.id).padStart(3, "0")}
           </p>
         )}

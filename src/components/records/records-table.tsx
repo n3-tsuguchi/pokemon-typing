@@ -50,63 +50,112 @@ export function RecordsTable() {
 
   const bestScore = Math.max(...scores.map((s) => s.score));
 
+  // Mobile: card layout, Desktop: table layout
   return (
-    <div className="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm">
-      <table className="w-full text-left">
-        <thead>
-          <tr className="border-b border-gray-100 bg-gray-50/80">
-            <th className="px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-400">#</th>
-            <th className="px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-400">正解数</th>
-            <th className="px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-400">回答数</th>
-            <th className="px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-400">正答率</th>
-            <th className="px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-400">日時</th>
-          </tr>
-        </thead>
-        <tbody>
-          {scores.map((score, i) => (
-            <tr
-              key={i}
-              className={`border-b border-gray-50 transition-colors hover:bg-gray-50/50 ${
-                score.score === bestScore ? "bg-yellow-50/50" : ""
-              }`}
-            >
-              <td className="px-5 py-4 text-sm text-gray-400">{i + 1}</td>
-              <td className="px-5 py-4">
-                <div className="flex items-center gap-2">
-                  <span className="text-lg font-bold text-green-600 tabular-nums">{score.score}</span>
-                  {score.score === bestScore && (
-                    <span className="rounded-full bg-gradient-to-r from-yellow-400 to-amber-400 px-2 py-0.5 text-[10px] font-bold text-white shadow-sm">
-                      BEST
-                    </span>
-                  )}
-                  <span>{getRankEmoji(score.score)}</span>
-                </div>
-              </td>
-              <td className="px-5 py-4 text-sm font-medium text-gray-600 tabular-nums">{score.totalAttempts}</td>
-              <td className="px-5 py-4">
-                <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${
-                  score.accuracy >= 90
-                    ? "bg-green-100 text-green-700"
-                    : score.accuracy >= 70
-                      ? "bg-blue-100 text-blue-700"
-                      : "bg-gray-100 text-gray-600"
-                }`}>
-                  {score.accuracy}%
-                </span>
-              </td>
-              <td className="px-5 py-4 text-sm text-gray-400">
+    <>
+      {/* Desktop table */}
+      <div className="hidden sm:block overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm">
+        <table className="w-full text-left">
+          <thead>
+            <tr className="border-b border-gray-100 bg-gray-50/80">
+              <th className="px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-400">#</th>
+              <th className="px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-400">正解数</th>
+              <th className="px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-400">回答数</th>
+              <th className="px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-400">正答率</th>
+              <th className="px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-gray-400">日時</th>
+            </tr>
+          </thead>
+          <tbody>
+            {scores.map((score, i) => (
+              <tr
+                key={i}
+                className={`border-b border-gray-50 transition-colors hover:bg-gray-50/50 ${
+                  score.score === bestScore ? "bg-yellow-50/50" : ""
+                }`}
+              >
+                <td className="px-5 py-4 text-sm text-gray-400">{i + 1}</td>
+                <td className="px-5 py-4">
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg font-bold text-green-600 tabular-nums">{score.score}</span>
+                    {score.score === bestScore && (
+                      <span className="rounded-full bg-gradient-to-r from-yellow-400 to-amber-400 px-2 py-0.5 text-[10px] font-bold text-white shadow-sm">
+                        BEST
+                      </span>
+                    )}
+                    <span>{getRankEmoji(score.score)}</span>
+                  </div>
+                </td>
+                <td className="px-5 py-4 text-sm font-medium text-gray-600 tabular-nums">{score.totalAttempts}</td>
+                <td className="px-5 py-4">
+                  <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${
+                    score.accuracy >= 90
+                      ? "bg-green-100 text-green-700"
+                      : score.accuracy >= 70
+                        ? "bg-blue-100 text-blue-700"
+                        : "bg-gray-100 text-gray-600"
+                  }`}>
+                    {score.accuracy}%
+                  </span>
+                </td>
+                <td className="px-5 py-4 text-sm text-gray-400">
+                  {score.timestamp.toLocaleDateString("ja-JP", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Mobile card layout */}
+      <div className="sm:hidden space-y-3">
+        {scores.map((score, i) => (
+          <div
+            key={i}
+            className={`rounded-2xl border bg-white p-4 shadow-sm ${
+              score.score === bestScore ? "border-yellow-300 bg-yellow-50/30" : "border-gray-100"
+            }`}
+          >
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-gray-400">#{i + 1}</span>
+                <span className="text-2xl font-bold text-green-600 tabular-nums">{score.score}</span>
+                <span>{getRankEmoji(score.score)}</span>
+                {score.score === bestScore && (
+                  <span className="rounded-full bg-gradient-to-r from-yellow-400 to-amber-400 px-2 py-0.5 text-[10px] font-bold text-white shadow-sm">
+                    BEST
+                  </span>
+                )}
+              </div>
+              <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${
+                score.accuracy >= 90
+                  ? "bg-green-100 text-green-700"
+                  : score.accuracy >= 70
+                    ? "bg-blue-100 text-blue-700"
+                    : "bg-gray-100 text-gray-600"
+              }`}>
+                {score.accuracy}%
+              </span>
+            </div>
+            <div className="flex items-center justify-between text-xs text-gray-400">
+              <span>回答数: {score.totalAttempts}</span>
+              <span>
                 {score.timestamp.toLocaleDateString("ja-JP", {
-                  year: "numeric",
                   month: "short",
                   day: "numeric",
                   hour: "2-digit",
                   minute: "2-digit",
                 })}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
   );
 }
