@@ -4,19 +4,22 @@ import { useRef, useEffect } from "react";
 
 interface Props {
   targetName: string;
+  targetRomaji: string;
   onCorrect: () => void;
   disabled: boolean;
   cryUrl?: string;
 }
 
-export function TypingInput({ targetName, onCorrect, disabled, cryUrl }: Props) {
+export function TypingInput({ targetName, targetRomaji, onCorrect, disabled, cryUrl }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const isComposingRef = useRef(false);
   const targetRef = useRef(targetName);
+  const targetRomajiRef = useRef(targetRomaji);
   const onCorrectRef = useRef(onCorrect);
   const cryUrlRef = useRef(cryUrl);
 
   targetRef.current = targetName;
+  targetRomajiRef.current = targetRomaji;
   onCorrectRef.current = onCorrect;
   cryUrlRef.current = cryUrl;
 
@@ -34,7 +37,12 @@ export function TypingInput({ targetName, onCorrect, disabled, cryUrl }: Props) 
     if (!input) return;
 
     const checkAnswer = () => {
-      if (input.value === targetRef.current) {
+      const value = input.value;
+      const isCorrect =
+        value === targetRef.current ||
+        value.toLowerCase() === targetRomajiRef.current.toLowerCase();
+
+      if (isCorrect) {
         // Play cry directly in user gesture callback
         if (cryUrlRef.current) {
           const audio = new Audio(cryUrlRef.current);
@@ -91,7 +99,7 @@ export function TypingInput({ targetName, onCorrect, disabled, cryUrl }: Props) 
         autoCorrect="off"
         autoCapitalize="off"
         spellCheck={false}
-        placeholder="ポケモンの名前を入力..."
+        placeholder="日本語 or ローマ字で入力..."
         className="w-full rounded-2xl border-2 border-gray-200 bg-white px-4 py-3 sm:px-6 sm:py-4 text-center text-lg sm:text-xl font-medium
           shadow-sm transition-all duration-200
           focus:border-blue-400 focus:outline-none focus:shadow-[0_0_0_4px_rgba(59,130,246,0.1)]

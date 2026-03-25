@@ -247,6 +247,7 @@ export function GameContainer() {
           <div className="space-y-2 sm:space-y-3">
             <TypingInput
               targetName={currentPokemon.nameJa}
+              targetRomaji={currentPokemon.nameRomaji}
               onCorrect={handleCorrect}
               disabled={finished}
               cryUrl={`https://play.pokemonshowdown.com/audio/cries/${currentPokemon.nameEn}.mp3`}
