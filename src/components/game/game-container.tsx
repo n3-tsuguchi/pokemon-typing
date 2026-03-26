@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useCallback, useState } from "react";
 import { usePokemonPool } from "@/hooks/use-pokemon-pool";
-import { saveScore } from "@/lib/firestore";
+import { saveScore, getBestScore } from "@/lib/firestore";
 import { GENERATIONS } from "@/lib/generations";
 import { playCorrectSE, playTimeUpSE, playCountdownSE } from "@/lib/sounds";
 import { PokemonDisplay } from "./pokemon-display";
@@ -35,6 +35,7 @@ export function GameContainer() {
   const [bestStreak, setBestStreak] = useState(0);
   const [showCorrectEffect, setShowCorrectEffect] = useState(false);
   const [pokemonKey, setPokemonKey] = useState(0);
+  const [personalBest, setPersonalBest] = useState(0);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const savedRef = useRef(false);
   const currentIndexRef = useRef(0);
@@ -84,6 +85,7 @@ export function GameContainer() {
     const audio = new Audio();
     audio.volume = 0;
     audio.play().catch(() => {});
+    setPersonalBest(getBestScore());
     const duration = DIFFICULTY_CONFIG[diff].duration;
     durationRef.current = duration;
     setDifficulty(diff);
@@ -278,7 +280,7 @@ export function GameContainer() {
         <TimerBar timeLeft={timeLeft} duration={durationRef.current} />
 
         {/* Score & Streak */}
-        <ScoreDisplay score={score} totalAttempts={totalAttempts} streak={streak} showCorrectEffect={showCorrectEffect} />
+        <ScoreDisplay score={score} totalAttempts={totalAttempts} streak={streak} showCorrectEffect={showCorrectEffect} personalBest={personalBest} />
 
         {/* Pokemon Display */}
         {currentPokemon && (

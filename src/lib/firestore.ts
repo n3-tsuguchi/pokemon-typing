@@ -35,3 +35,9 @@ export async function saveScore(
 export async function getScores(): Promise<GameScore[]> {
   return getStoredScores();
 }
+
+export function getBestScore(): number {
+  const scores = getStoredScores();
+  if (scores.length === 0) return 0;
+  return Math.max(...scores.map((s) => s.score));
+}
