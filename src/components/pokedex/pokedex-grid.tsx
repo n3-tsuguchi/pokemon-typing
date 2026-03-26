@@ -5,6 +5,12 @@ import Image from "next/image";
 import { POKEMON_DATA } from "@/lib/pokemon-data";
 import { POKEMON_DATA_GEN2 } from "@/lib/pokemon-data-gen2";
 import { POKEMON_DATA_GEN3 } from "@/lib/pokemon-data-gen3";
+import { POKEMON_DATA_GEN4 } from "@/lib/pokemon-data-gen4";
+import { POKEMON_DATA_GEN5 } from "@/lib/pokemon-data-gen5";
+import { POKEMON_DATA_GEN6 } from "@/lib/pokemon-data-gen6";
+import { POKEMON_DATA_GEN7 } from "@/lib/pokemon-data-gen7";
+import { POKEMON_DATA_GEN8 } from "@/lib/pokemon-data-gen8";
+import { POKEMON_DATA_GEN9 } from "@/lib/pokemon-data-gen9";
 import { GENERATIONS } from "@/lib/generations";
 import { getCaughtIds } from "@/lib/pokedex";
 import type { Pokemon } from "@/lib/types";
@@ -13,6 +19,12 @@ const ALL_POKEMON: Pokemon[] = [
   ...POKEMON_DATA,
   ...POKEMON_DATA_GEN2,
   ...POKEMON_DATA_GEN3,
+  ...POKEMON_DATA_GEN4,
+  ...POKEMON_DATA_GEN5,
+  ...POKEMON_DATA_GEN6,
+  ...POKEMON_DATA_GEN7,
+  ...POKEMON_DATA_GEN8,
+  ...POKEMON_DATA_GEN9,
 ];
 
 interface Props {
