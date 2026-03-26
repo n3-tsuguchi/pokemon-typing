@@ -5,6 +5,7 @@ import { usePokemonPool } from "@/hooks/use-pokemon-pool";
 import { saveScore, getBestScore } from "@/lib/firestore";
 import { GENERATIONS } from "@/lib/generations";
 import { playCorrectSE, playTimeUpSE, playCountdownSE } from "@/lib/sounds";
+import { registerPokemon } from "@/lib/pokedex";
 import { PokemonDisplay } from "./pokemon-display";
 import { TypingInput } from "./typing-input";
 import { TimerBar } from "./timer-bar";
@@ -133,6 +134,9 @@ export function GameContainer() {
     setPokemonKey((k) => k + 1);
     setTimeout(() => setShowCorrectEffect(false), 400);
     playCorrectSE();
+    if (answeredPokemon) {
+      registerPokemon(answeredPokemon.id);
+    }
 
     // Cry is now played directly in TypingInput for browser autoplay policy
   }, []);

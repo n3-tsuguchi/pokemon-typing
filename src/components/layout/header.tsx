@@ -26,6 +26,12 @@ export function Header() {
             ゲーム
           </Link>
           <Link
+            href="/pokedex"
+            className="rounded-full px-4 py-2 text-sm font-medium text-gray-600 transition hover:bg-gray-100 hover:text-gray-900"
+          >
+            図鑑
+          </Link>
+          <Link
             href="/records"
             className="rounded-full px-4 py-2 text-sm font-medium text-gray-600 transition hover:bg-gray-100 hover:text-gray-900"
           >
