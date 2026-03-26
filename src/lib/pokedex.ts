@@ -22,20 +22,6 @@ export function registerPokemon(id: number) {
   saveIds(ids);
 }
 
-/** Register multiple Pokemon at once */
-export function registerMultiple(pokemonIds: number[]) {
-  const ids = getStoredIds();
-  for (const id of pokemonIds) {
-    ids.add(id);
-  }
-  saveIds(ids);
-}
-
-/** Check if a Pokemon is caught */
-export function isCaught(id: number): boolean {
-  return getStoredIds().has(id);
-}
-
 /** Get all caught Pokemon IDs */
 export function getCaughtIds(): Set<number> {
   return getStoredIds();
